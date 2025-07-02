@@ -49,7 +49,9 @@ Instructions:
 - No explanations, just keyword:weight pairs
 - Only generate necessary keywords
 - Don't assume keywords, just generate based on the question.
-- Ignore common words like "the", "is", "in", "what", "how", "why", "an", "a", "and", "or", "but", "if", "then", "else", "there", "here", "now", "then", "there", "here", "now", etc.
+- Ignore common words like "the", "is", "are", "in", "what", "how", "why", "an", "a", "and", "or", "but", "if", "then", "else", "there", "here", "now", "then", "there", "here", "now", "which", "what", etc.
+- a keyword should be a single word
+- Do not generate 'nit','calicut','nitc' as keywords. It is strictly forbidden.
 
 Example format:
 docker:10
@@ -287,6 +289,16 @@ class WikiChatbotWeb:
         .message {{ margin: 10px 0; }}
         .user {{ color: #0066cc; font-weight: bold; }}
         .ai {{ color: #cc6600; }}
+        .ai h1, .ai h2, .ai h3 {{ color: #994400; margin: 10px 0 5px 0; }}
+        .ai strong {{ color: #994400; font-weight: bold; }}
+        .ai em {{ color: #aa5500; font-style: italic; }}
+        .ai code {{ background: #f5f5f5; padding: 2px 4px; border-radius: 3px; font-family: monospace; color: #333; }}
+        .ai pre {{ background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }}
+        .ai pre code {{ background: none; padding: 0; }}
+        .ai a {{ color: #0066cc; text-decoration: underline; }}
+        .ai ul, .ai ol {{ margin: 10px 0; padding-left: 20px; }}
+        .ai li {{ margin: 5px 0; }}
+        .ai blockquote {{ border-left: 4px solid #ddd; margin: 10px 0; padding-left: 15px; color: #666; }}
         input[type="text"] {{ width: 70%; padding: 10px; }}
         button {{ padding: 10px 20px; background: #0066cc; color: white; border: none; cursor: pointer; }}
         .stats {{ background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }}
@@ -303,6 +315,7 @@ class WikiChatbotWeb:
         <button onclick="sendMessage()">Send</button>
     </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script>
         async function sendMessage() {{
             const input = document.getElementById('userInput');
@@ -335,7 +348,16 @@ class WikiChatbotWeb:
             const chatDiv = document.getElementById('chat');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message ' + className;
-            messageDiv.innerHTML = text.replace(/\\n/g, '<br>');
+            
+            // Parse markdown to HTML using marked.js
+            if (className === 'ai') {{
+                // For AI responses, parse as markdown
+                messageDiv.innerHTML = marked.parse(text.replace('🤖 AI: ', ''));
+            }} else {{
+                // For user messages, just replace newlines
+                messageDiv.innerHTML = text.replace(/\\n/g, '<br>').replace(/\\n/g, '<br>');
+            }}
+            
             chatDiv.appendChild(messageDiv);
             chatDiv.scrollTop = chatDiv.scrollHeight;
         }}
