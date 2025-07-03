@@ -407,7 +407,7 @@ class WikiChatbotWeb:
                         self.end_headers()
                         self.wfile.write(json.dumps({'response': response}).encode())
             
-            server = HTTPServer(('localhost', self.port), ChatHandler)
+            server = HTTPServer(('0.0.0.0', self.port), ChatHandler)
             server.chatbot_web = self
             
             print(f"🌐 Web chatbot running at http://localhost:{self.port}")
