@@ -154,9 +154,11 @@ If you encounter issues:
 We welcome contributions to make this project better!
 
 ### Goals for Contributors
-[  ] **Run the AI Locally**: Replace the current remote AI API with a local AI model for keyword extraction and response generation.
+[ ] **Scrape NITC's official website**: Crawl nitc.ac.in and generate a huge dataset for the Chatbot to work with.
 
-[  ] **Better Web Interface**: Improve or redesign the web interface for a more user-friendly and interactive experience.
+[ ] **Run the AI Locally**: Replace the current remote AI API with a local AI model for keyword extraction and response generation.
+
+[ ] **Better Web Interface**: Improve or redesign the web interface for a more user-friendly and interactive experience.
 
 If you have ideas, bug fixes, or improvements, feel free to open a Pull Request (PR)!
 
